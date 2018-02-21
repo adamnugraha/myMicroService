@@ -1,0 +1,8 @@
+applications:
+- name: myMicroService
+  timeout: 180
+  instances: 1
+  path: ./target/myMicroService.zip
+  memory: 512M
+  buildpack: liberty-for-java
+  random-route: true
