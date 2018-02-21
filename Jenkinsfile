@@ -1,6 +1,6 @@
-#!groovy
+/* #!groovy
 
-/* @Library('MicroserviceBuilder') _
+@Library('MicroserviceBuilder') _
 microserviceBuilderPipeline {
  image = 'mymicroservice'
 } */
