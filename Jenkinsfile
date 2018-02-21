@@ -25,7 +25,7 @@ podTemplate(label: 'mypod',
                 #!/bin/bash
                 NAMESPACE=`cat /var/run/configs/registry-config/namespace`
                 REGISTRY=`cat /var/run/configs/registry-config/registry`
-                docker build -t c1.icp/default/myMicroService:${env.BUILD_NUMBER} .
+                docker build -t c1.icp/default/mymicroservice:${env.BUILD_NUMBER} .
                 """
             }
             stage('Push Docker Image to Registry') {
@@ -38,7 +38,7 @@ podTemplate(label: 'mypod',
                 DOCKER_PASSWORD=`cat /var/run/secrets/registry-account/password`
                 docker login -u=\${DOCKER_USER} -p=\${DOCKER_PASSWORD} c1.icp
                 set -x
-                docker push c1.icp/default/myMicroService:${env.BUILD_NUMBER}
+                docker push c1.icp/default/mymicroservice:${env.BUILD_NUMBER}
                 """
             }
         }
@@ -49,7 +49,7 @@ podTemplate(label: 'mypod',
                 set +e
                 NAMESPACE=`cat /var/run/configs/registry-config/namespace`
                 REGISTRY=`cat /var/run/configs/registry-config/registry`
-                DEPLOYMENT=`kubectl get deployments -l app=myMicroService -o name`
+                DEPLOYMENT=`kubectl get deployments -l app=mymicroservice -o name`
                 kubectl get \${DEPLOYMENT}
                 if [ \${?} -ne "0" ]; then
                     # No deployment to update
@@ -57,7 +57,7 @@ podTemplate(label: 'mypod',
                     exit 1
                 fi
                 # Update Deployment
-                kubectl set image \${DEPLOYMENT} web=c1.icp/default/myMicroService:${env.BUILD_NUMBER}
+                kubectl set image \${DEPLOYMENT} web=c1.icp/default/mymicroservice:${env.BUILD_NUMBER}
                 kubectl rollout status \${DEPLOYMENT}
                 """
             }
