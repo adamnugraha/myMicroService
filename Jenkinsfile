@@ -1,9 +1,9 @@
 #!groovy
 
-# @Library('MicroserviceBuilder') _
-# microserviceBuilderPipeline {
-#  image = 'mymicroservice'
-# }
+@Library('MicroserviceBuilder') _
+microserviceBuilderPipeline {
+ image = 'mymicroservice'
+}
 
 podTemplate(label: 'mypod',
     volumes: [
