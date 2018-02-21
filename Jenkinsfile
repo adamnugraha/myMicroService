@@ -25,7 +25,7 @@ podTemplate(label: 'mypod',
                 #!/bin/bash
                 NAMESPACE=`cat /var/run/configs/registry-config/namespace`
                 REGISTRY=`cat /var/run/configs/registry-config/registry`
-                docker build -t c1.icp/default/mymicroservice:${env.BUILD_NUMBER} .
+                docker build -t c1.icp:8500/default/mymicroservice:${env.BUILD_NUMBER} .
                 """
             }
             stage('Push Docker Image to Registry') {
@@ -36,9 +36,9 @@ podTemplate(label: 'mypod',
                 set +x
                 DOCKER_USER=`cat /var/run/secrets/registry-account/username`
                 DOCKER_PASSWORD=`cat /var/run/secrets/registry-account/password`
-                docker login -u=\${DOCKER_USER} -p=\${DOCKER_PASSWORD} c1.icp
+                docker login -u=\${DOCKER_USER} -p=\${DOCKER_PASSWORD} c1.icp:8500
                 set -x
-                docker push c1.icp/default/mymicroservice:${env.BUILD_NUMBER}
+                docker push c1.icp:8500/default/mymicroservice:${env.BUILD_NUMBER}
                 """
             }
         }
@@ -57,7 +57,7 @@ podTemplate(label: 'mypod',
                     exit 1
                 fi
                 # Update Deployment
-                kubectl set image \${DEPLOYMENT} web=c1.icp/default/mymicroservice:${env.BUILD_NUMBER}
+                kubectl set image \${DEPLOYMENT} web=c1.icp:8500/default/mymicroservice:${env.BUILD_NUMBER}
                 kubectl rollout status \${DEPLOYMENT}
                 """
             }
