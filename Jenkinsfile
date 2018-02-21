@@ -18,7 +18,7 @@ podTemplate(label: 'mypod',
   ]) {
 
     node('mypod') {
-        //checkout scm
+        checkout scm
         //checkout
         container('docker') {
             stage('Build Docker Image') {
