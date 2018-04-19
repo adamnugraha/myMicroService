@@ -19,7 +19,7 @@ public class Example {
     public Response example() {
         List<String> list = new ArrayList<>();
         //return a simple list of strings
-        list.add("{\"Demo Event IBM Jakarta\":\"I am a bad bad bad developer\"}");
+        list.add("{\"Demo Event IBM Jakarta\":\"I am a not bad bad bad developer\"}");
         return Response.ok(list.toString()).build();
     }
 
