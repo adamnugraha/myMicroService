@@ -1,16 +1,3 @@
-#!groovy
-
-@Library('MicroserviceBuilder') _
-microserviceBuilderPipeline {
- image = 'mymicroservice'
-}
-
-stage('Build') {
-      container('gradle') {
-        sh "gradle build"
-      }
-    }
-
 podTemplate(label: 'mypod',
     volumes: [
         hostPathVolume(hostPath: '/etc/docker/certs.d', mountPath: '/etc/docker/certs.d'),
@@ -25,6 +12,13 @@ podTemplate(label: 'mypod',
 
     node('mypod') {
         checkout scm
+
+	stage('Build') {
+	      container('gradle') {
+		sh "gradle build"
+	      }
+	    }
+
         container('docker') {
             stage('Build Docker Image') {
                 sh """
