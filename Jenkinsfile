@@ -5,6 +5,12 @@ microserviceBuilderPipeline {
  image = 'mymicroservice'
 }
 
+stage('Build') {
+      container('gradle') {
+        sh "gradle build"
+      }
+    }
+
 podTemplate(label: 'mypod',
     volumes: [
         hostPathVolume(hostPath: '/etc/docker/certs.d', mountPath: '/etc/docker/certs.d'),
@@ -25,8 +31,7 @@ podTemplate(label: 'mypod',
                 #!/bin/bash
                 NAMESPACE=`cat /var/run/configs/registry-config/namespace`
                 REGISTRY=`cat /var/run/configs/registry-config/registry`
-		mvn install
-                docker build -t \${REGISTRY}/\${NAMESPACE}/mymicroservice:${env.BUILD_NUMBER} .
+		docker build -t \${REGISTRY}/\${NAMESPACE}/mymicroservice:${env.BUILD_NUMBER} .
                 """
             }
             stage('Push Docker Image to Registry') {
