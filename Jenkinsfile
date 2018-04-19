@@ -25,6 +25,7 @@ podTemplate(label: 'mypod',
                 #!/bin/bash
                 NAMESPACE=`cat /var/run/configs/registry-config/namespace`
                 REGISTRY=`cat /var/run/configs/registry-config/registry`
+		mvn install
                 docker build -t \${REGISTRY}/\${NAMESPACE}/mymicroservice:${env.BUILD_NUMBER} .
                 """
             }
