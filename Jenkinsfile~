@@ -1,13 +1,12 @@
 podTemplate(label: 'mypod',
     volumes: [
-  	hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
         hostPathVolume(hostPath: '/etc/docker/certs.d', mountPath: '/etc/docker/certs.d'),
         hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
         secretVolume(secretName: 'registry-account', mountPath: '/var/run/secrets/registry-account'),
         configMapVolume(configMapName: 'registry-config', mountPath: '/var/run/configs/registry-config')
     ],
     containers: [
-  	containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
+	containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
         containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl', ttyEnabled: true, command: 'cat'),
         containerTemplate(name: 'docker' , image: 'docker:17.06.1-ce', ttyEnabled: true, command: 'cat')
   ]) {
@@ -15,12 +14,14 @@ podTemplate(label: 'mypod',
     node('mypod') {
         checkout scm
 
-	stage('Build') {
-	      container('gradle') {
-		sh "gradle build"
-	      }
-	    }
-
+	stage('Get a Maven project') {
+            git 'https://github.com/jenkinsci/kubernetes-plugin.git'
+            container('maven') {
+                stage('Build a Maven project') {
+                    sh 'mvn -B clean install'
+                }
+            }
+        }
         container('docker') {
             stage('Build Docker Image') {
                 sh """
