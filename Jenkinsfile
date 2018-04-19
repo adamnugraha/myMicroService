@@ -59,7 +59,7 @@ podTemplate(label: 'mypod',
                     exit 1
                 fi
                 # Update Deployment
-                kubectl --namespace=\${NAMESPACE} set image \${DEPLOYMENT} web=\${REGISTRY}/\${NAMESPACE}/mymicroservice:${env.BUILD_NUMBER}
+                kubectl --namespace=\${NAMESPACE} set image \${DEPLOYMENT} mymicroservice=\${REGISTRY}/\${NAMESPACE}/mymicroservice:${env.BUILD_NUMBER}
                 kubectl --namespace=\${NAMESPACE} rollout status \${DEPLOYMENT}
                 """
             }
