@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mymicroservice
+  labels:
+    app: mymicroservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mymicroservice
+  template:
+    metadata:
+      labels:
+        app: mymicroservice
+    spec:
+      containers:
+      - name: mymicroservice
+        image: c1.icp:8500/default/mymicroservice:v1.0.0
+        ports:
+        - containerPort: 8080
