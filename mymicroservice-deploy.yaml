@@ -18,4 +18,4 @@ spec:
       - name: mymicroservice
         image: c1.icp:8500/default/mymicroservice:v1.0.0
         ports:
-        - containerPort: 8080
+        - containerPort: 9080

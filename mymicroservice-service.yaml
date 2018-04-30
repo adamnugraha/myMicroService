@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mymicroservice
+spec:
+  type: NodePort
+  selector:
+    app: mymicroservice
+  ports:
+  - protocol: TCP
+    port: 9080
+    targetPort: 9080
+
